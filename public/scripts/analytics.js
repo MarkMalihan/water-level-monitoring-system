@@ -35,15 +35,11 @@ const authBarElement = document.querySelector('#authentication-bar');
 const deleteButtonElement = document.getElementById('delete-button');
 const deleteModalElement = document.getElementById('delete-modal');
 const deleteDataFormElement = document.querySelector('#delete-data-form');
-const viewDataButtonElement = document.getElementById('view-data-button');
-const hideDataButtonElement = document.getElementById('hide-data-button');
+
 const tableContainerElement = document.querySelector('#table-container');
 const chartsRangeInputElement = document.getElementById('charts-range');
 const loadDataButtonElement = document.getElementById('load-next');
 const loadprevDataButtonElement = document.getElementById('load-previous');
-const cardsCheckboxElement = document.querySelector('input[name=cards-checkbox]');
-const gaugesCheckboxElement = document.querySelector('input[name=gauges-checkbox]');
-const chartsCheckboxElement = document.querySelector('input[name=charts-checkbox]');
 const sidenavElement = document.querySelector('#side-nav');
 
 // DOM elements for sensor readings
@@ -65,8 +61,6 @@ const setupUI = (user) => {
     userDetailsElement.style.display ='block';
     userDetailsElement.innerHTML = user.email;
     
-    viewDataButtonElement.style.display = 'inline-block';
-    deleteButtonElement.style.display = 'inline-block';
     sidenavElement.style.display = 'block';
     // get user UID to get data from database
     var uid = user.uid;
@@ -88,14 +82,8 @@ const setupUI = (user) => {
       chartRange = Number(snapshot.val());
       console.log(chartRange);
       // Delete all data from charts to update with new values when a new range is selected
-      chartT.destroy();
-      //chartH.destroy();
-      //chartP.destroy();
+      chartW.destroy();
       // Render new charts to display new range of data
-      chartT = createTemperatureChart();
-      //chartH = createHumidityChart();
-      //chartP = createPressureChart();
-
       chartW = createWaterLevelChart();
       
       // Update the charts with the new range
@@ -104,14 +92,9 @@ const setupUI = (user) => {
         var jsonData = snapshot.toJSON(); // example: {temperature: 25.02, humidity: 50.20, pressure: 1008.48, timestamp:1641317355}
         // Save values on variables
         var distance = jsonData.distance;
-        //var humidity = jsonData.humidity;
-        //var pressure = jsonData.pressure;
         var timestamp = jsonData.timestamp;
-        // Plot the values on the charts
-        plotValues(chartT, timestamp, distance);
-        //plotValues(chartH, timestamp, humidity);
-        //plotValues(chartP, timestamp, pressure);
         plotValues(chartW, timestamp, distance);
+        updateElement.innerHTML = epochToDateTime(timestamp);
       });
     });
 
@@ -120,74 +103,15 @@ const setupUI = (user) => {
       chartRef.set(chartsRangeInputElement.value);
     };
 
-    //CHECKBOXES
-    // Checbox (cards for sensor readings)
-    cardsCheckboxElement.addEventListener('change', (e) =>{
-      if (cardsCheckboxElement.checked) {
-        cardsReadingsElement.style.display = 'none';
-      }
-      else{
-        cardsReadingsElement.style.display = 'none';
-      }
-    });
-    // Checbox (gauges for sensor readings)
-    gaugesCheckboxElement.addEventListener('change', (e) =>{
-      if (gaugesCheckboxElement.checked) {
-        gaugesReadingsElement.style.display = 'none';
-      }
-      else{
-        gaugesReadingsElement.style.display = 'none';
-      }
-    });
     // Checbox (charta for sensor readings)
-    chartsCheckboxElement.addEventListener('change', (e) =>{
-      if (chartsCheckboxElement.checked) {
-        chartsDivElement.style.display = 'block';
-      }
-      else{
-        chartsDivElement.style.display = 'none';
-      }
-    });
-
-    // CARDS
-    // Get the latest readings and display on cards
-    dbRef.orderByKey().limitToLast(1).on('child_added', snapshot =>{
-      var jsonData = snapshot.toJSON(); // example: {temperature: 25.02, humidity: 50.20, pressure: 1008.48, timestamp:1641317355}
-      var distance = jsonData.distance;
-      //var humidity = jsonData.humidity;
-      //var pressure = jsonData.pressure;
-      var timestamp = jsonData.timestamp;
-      // Update DOM elements
-      tempElement.innerHTML = distance;
-      //humElement.innerHTML = humidity;
-      //presElement.innerHTML = pressure;
-      updateElement.innerHTML = epochToDateTime(timestamp);
-    });
-
-    // GAUGES
-    // Get the latest readings and display on gauges
-    dbRef.orderByKey().limitToLast(1).on('child_added', snapshot =>{
-      var jsonData = snapshot.toJSON(); // example: {temperature: 25.02, humidity: 50.20, pressure: 1008.48, timestamp:1641317355}
-      var distance = jsonData.distance;
-      //var humidity = jsonData.humidity;
-      //var pressure = jsonData.pressure;
-      var timestamp = jsonData.timestamp;
-      // Update DOM elements
-      var gaugeT = createTemperatureGauge();
-      var gaugeH = createHumidityGauge();
-      gaugeT.draw();
-      gaugeH.draw();
-      //gaugeT.value = temperature;
-      //gaugeH.value = humidity;
-      updateElement.innerHTML = epochToDateTime(timestamp);
-    });
+    chartsDivElement.style.display = 'block';
 
     // DELETE DATA
     // Add event listener to open modal when click on "Delete Data" button
     deleteButtonElement.addEventListener('click', e =>{
       console.log("Remove data");
       e.preventDefault;
-      deleteModalElement.style.display="block";
+      deleteModalElement.style.display="inline-block";
     });
 
     // Add event listener when delete form is submited
@@ -268,24 +192,13 @@ const setupUI = (user) => {
       });
     }
 
-    viewDataButtonElement.addEventListener('click', (e) =>{
-      // Toggle DOM elements
-      tableContainerElement.style.display = 'block';
-      viewDataButtonElement.style.display ='none';
-      hideDataButtonElement.style.display ='inline-block';
-      loadprevDataButtonElement.style.display = 'inline-block';
-      loadDataButtonElement.style.display = 'inline-block';
-      createTable();
-    });
+    tableContainerElement.style.display = 'block';
+    loadprevDataButtonElement.style.display = 'inline-block';
+    loadDataButtonElement.style.display = 'inline-block';
+    createTable();
 
     loadDataButtonElement.addEventListener('click', (e) => {
       appendToTable();
-    });
-
-    hideDataButtonElement.addEventListener('click', (e) => {
-      tableContainerElement.style.display = 'none';
-      viewDataButtonElement.style.display = 'inline-block';
-      hideDataButtonElement.style.display = 'none';
     });
 
   // IF USER IS LOGGED OUT
@@ -296,7 +209,6 @@ const setupUI = (user) => {
     userDetailsElement.style.display ='none';
     contentElement.style.display = 'none';
     sidenavElement.style.display = 'none';
-    viewDataButtonElement.style.display = 'none';
     deleteButtonElement.style.display = 'none';
     chartsDivElement.style.display = 'none';
   }

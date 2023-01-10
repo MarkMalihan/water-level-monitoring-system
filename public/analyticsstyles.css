@@ -310,73 +310,6 @@ button {
 .checkboxes{
   padding-top: 15px;
 }
-.content {
-    padding: 20px;
-}
-
-.card {
-    background-color: white;
-    box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5);
-    padding: 5%;
-}
-
-.h2{
-  background-color: #11101D;
-  color: rgb(255, 255, 255);
-  font-size: 1.3rem;
-}
-
-.cards {
-  padding-top: 15px;
-    max-width: 800px;
-    margin: 0 auto;
-    margin-bottom: 10px;
-    display: grid;
-    grid-gap: 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 2fr));
-}
-
-.reading {
-    color: #193036;
-}
-
-.update{
-  background-color: #11101D;
-  height: 30px;
-}
-.date-time{
-    font-size: 1.2rem;
-    color: #ffffff;
-    width: 100%;
-}
-
-button:hover {
-   opacity: 0.8;
-}
-.deletebtn{
-    background-color: #c52c2c;
-}
-
-table {
-    width: 100%;
-    text-align: center;
-    font-size: 0.8rem;
-}   
-tr, td {
-    padding: 0.25rem;
-}
-tr:nth-child(even) {
-    background-color: #f2f2f2
-}
-tr:hover {
-    background-color: #ddd;
-}
-th {
-    position: sticky;
-    top: 0;
-    background-color: #50b8b4;
-    color: white;
-}
 
 /* The Modal (background) */
 .modal {
@@ -428,10 +361,80 @@ hr {
     clear: both;
     display: table;
 }
-
 #active{
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
+}
+.noReadings{
+  padding-top: 10px;
+};
+
+.content {
+  padding: 20px;
+}
+
+.card {
+  background-color: white;
+  box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5);
+  padding: 5%;
+}
+
+.h2{
+background-color: #11101D;
+color: rgb(255, 255, 255);
+font-size: 1.3rem;
+}
+
+.cards {
+padding-top: 15px;
+  max-width: 800px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  display: grid;
+  grid-gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 2fr));
+}
+
+.reading {
+  color: #193036;
+}
+
+.update{
+background-color: #11101D;
+height: 30px;
+}
+.date-time{
+  font-size: 1.2rem;
+  color: #ffffff;
+  width: 100%;
+}
+
+button:hover {
+ opacity: 0.8;
+}
+.deletebtn{
+  background-color: #c52c2c;
+}
+
+table {
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+}   
+tr, td {
+  padding: 0.25rem;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2
+}
+tr:hover {
+  background-color: #ddd;
+}
+th {
+  position: sticky;
+  top: 0;
+  background-color: #50b8b4;
+  color: white;
 }
 
 /* Change styles for cancel button and delete button on extra small screens */
