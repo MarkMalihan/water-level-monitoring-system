@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="HandheldFriendly" content="true">
-    <title>Analytics</title>
+    <title>Analytics and Reports</title>
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <!-- include Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
@@ -83,17 +83,10 @@
           <li>
             <a  id = "active" href="#">
               <i id = "active" class='bx bx-pie-chart-alt-2' ></i>
-              <span id = "active" class="links_name">Analytics</span>
+              <span id = "active" class="links_name">Analytics & Reports</span>
             </a>
-            <span class="tooltip">Analytics</span>
+            <span class="tooltip">Analytics & Reports</span>
           </li>
-         <li>
-           <a href="#">
-             <i class='bx bxs-report' ></i>
-             <span class="links_name">Reports</span>
-           </a>
-           <span class="tooltip">Reports</span>
-         </li>
          <li>
            <a href="#">
              <i class='bx bx-link' ></i>
@@ -137,7 +130,7 @@
     <div class="content-sign-in" id="content-sign-in" style="display: none;">
 
         <!--LAST UPDATE-->
-        <h2>Analytics</h2>
+        <h2>Analytics and Reports</h2>
         <div class="update">
           <p><span class ="date-time">Last update: <span id="lastUpdate"></span></span></p>
         </div>
@@ -220,7 +213,8 @@
               <tbody id="tbody">
               </tbody>
           </table>
-          <p><button id="load-data" style= "display:none;">More results...</button></p>
+          <p><button  id="load-previous" style= "display:none;">Previous</button>
+            <button  id="load-next" style= "display:none;">Next</button></p>
         </div>
       </div>
 

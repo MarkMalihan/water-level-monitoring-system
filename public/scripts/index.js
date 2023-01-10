@@ -273,7 +273,7 @@ const setupUI = (user) => {
       tableContainerElement.style.display = 'block';
       viewDataButtonElement.style.display ='none';
       hideDataButtonElement.style.display ='inline-block';
-      loadprevDataButtonElement.style.display = 'block';
+      loadprevDataButtonElement.style.display = 'inline-block';
       loadDataButtonElement.style.display = 'inline-block';
       createTable();
     });
