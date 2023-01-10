@@ -1,139 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="HandheldFriendly" content="true">
-    <link rel="stylesheet" href="analyticsstyles.css">
-    <script src="script.js" defer></script>
-    <link rel="icon" type="image/x-icon" href="./images/tab-logo.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.google.com/icons?icon.style=Sharp&icon.set=Material+Icons" rel="stylesheet">
     <title>Analytics</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <!-- include Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+
+    <!-- include only the Firebase features as you need -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+    <script>
+      // Replace with your app config object
+      const firebaseConfig = {
+        apiKey: "AIzaSyA5rXrN87khGpfeEpaA4uuqPnQqsrD9l0A",
+        authDomain: "sample3-c7b38.firebaseapp.com",
+        databaseURL: "https://sample3-c7b38-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "sample3-c7b38",
+        storageBucket: "sample3-c7b38.appspot.com",
+        messagingSenderId: "288130084156",
+        appId: "1:288130084156:web:11df92a205b53692464239"
+      };
+
+      // Initialize firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Make auth and database references
+      const auth = firebase.auth();
+      const db = firebase.database();
+
+    </script>
+
+    <!-- include highchartsjs to build the charts-->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <!-- include to use jquery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--include icons from fontawesome-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <!-- include Gauges Javascript library-->
+    <script src="https://cdn.rawgit.com/Mikhus/canvas-gauges/gh-pages/download/2.1.7/all/gauge.min.js"></script>
+    <!--reference for favicon-->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!--reference a stylesheet-->
+    <link rel="stylesheet" type="text/css" href="analyticsstyles.css">
 </head>
 
 <body>
 
-    <nav class="main-nav" id="navbar">
-        <img src="./images/03.png" width="60" alt="" class="logo">
-        <div class="title">Flood Monitoring System</div>
-        <a href="#" class="toggle-button">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
-        </a>
-        <div class="nav-links">
-            <ul>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a class="nav-active" href="analytics.html">Analytics</a></li>
-                <li><a href="reports.html">Reports</a></li>
-                <hr>
-                <li><a href="contacts.html">Contacts</a></li>
-                <li><a href="links.html">Links</a></li>
-                <hr>
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="index.html">Log Out</a></li>
-             </ul>
+    <!--LOGIN FORM-->
+    <form id="login-form" style="display: none;">
+        <h1>Login</h1>
+        <div class="form-elements-container">
+          <label for="input-email"><b>Email</b></label>
+          <input type="text" placeholder="Enter Username" id="input-email" required>
+  
+          <label for="input-password"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" id="input-password" required>
+  
+          <button type="submit" id="login-button">Login</button>
+          <p id="error-message" style="color:red;"></p>
         </div>
-    </nav>
-    
-    <header>
-        <div class="header-text">
-            <h2>Analytics</h2>
-            <div class="account-name">
-                <h2>Guinayangan DRRMO</h2>
+      </form>
+
+    <div class="sidebar" id = "side-nav">
+        <div class="logo-details">
+          <i class='bx bx-water icon'></i>
+            <div class="logo_name">WaterLevel</div>
+            <i class='bx bx-menu' id="btn" ></i>
+        </div>
+        <ul class="nav-list">
+          <li>
+            <a href="/public/index.html">
+              <i class='bx bx-grid-alt'></i>
+              <span class="links_name">Dashboard</span>
+            </a>
+             <span class="tooltip">Dashboard</span>
+          </li>
+          <li>
+            <a  id = "active" href="#">
+              <i id = "active" class='bx bx-pie-chart-alt-2' ></i>
+              <span id = "active" class="links_name">Analytics</span>
+            </a>
+            <span class="tooltip">Analytics</span>
+          </li>
+         <li>
+           <a href="#">
+             <i class='bx bxs-report' ></i>
+             <span class="links_name">Reports</span>
+           </a>
+           <span class="tooltip">Reports</span>
+         </li>
+         <li>
+           <a href="#">
+             <i class='bx bx-link' ></i>
+             <span class="links_name">Links</span>
+           </a>
+           <span class="tooltip">Links</span>
+         </li>
+         <li>
+           <a href="#">
+             <i class='bx bx-cog' ></i>
+             <span class="links_name">Setting</span>
+           </a>
+           <span class="tooltip">Setting</span>
+         </li>
+         <li>
+          <a href="#">
+            <i class='bx bx-info-circle' ></i>
+            <span class="links_name">About</span>
+          </a>
+          <span class="tooltip">About</span>
+        </li>
+         <li>
+          <a href="#" id="logout-link">
+            <i class='bx bx-log-out' ></i>
+            <span class="links_name">Logout</span>
+          </a>
+          <span class="tooltip">Logout</span>
+        </li>
+         <li class="profile">
+          <div profile-details id="authentication-bar" >
+            <p>
+              <span id="user-details">USEREMAIL</span>
+            </p>
+          </div>
+          <i class='bx bx-profile' id="log_out" ></i>
+         </li>
+        </ul>
+      </div>
+
+      <!--CONTENT (SENSOR READINGS)-->
+    <div class="content-sign-in" id="content-sign-in" style="display: none;">
+
+        <!--LAST UPDATE-->
+        <h2>Analytics</h2>
+        <div class="update">
+          <p><span class ="date-time">Last update: <span id="lastUpdate"></span></span></p>
+        </div>
+        
+        <p class="checkboxes">
+          Cards: <input type="checkbox" id="cards-checkbox" name="cards-checkbox" checked>
+          Gauges: <input type="checkbox" id="gauges-checkbox" name="gauges-checkbox" checked>
+          Charts: <input type="checkbox" id="charts-checkbox" name="charts-checkbox" checked>
+        </p>
+  
+        <!--GAUGES-->
+        <div class="cards">
+          <!--TEMPERATURE-->
+          <div class="card">
+            <div id ="gauges-div"></div>
+              <canvas id="gauge-temperature"></canvas>
             </div>
+            <!--HUMIDITY-->
+            <div class="card">
+              <canvas id="gauge-humidity"></canvas>
+            </div>
+          </div>
         </div>
-    </header>
-
-    <main>
-        <div class="date">
-            <input type="date">
+  
+        <!--CHARTS-->
+        <div id="charts-div" style="display:none">
+          <!--SET NUMBER OF READINGS INPUT FIELD-->
+          <div>
+            <p> Number of readings: <input type="number" id="charts-range"></p>
+          </div>
+          <!--TEMPERATURE-CHART-->
+          <div class="cards">
+            <div class="card">
+              <p><i class="fas fa-thermometer-half" style="color:#059e8a;"></i> TEMPERATURE CHART</p>
+              <div id="chart-temperature" class="chart-container"></div>
+            </div>
+          </div>
+          
+          <!--WATER LEVEL-->
+          <div class="cards">
+            <div class="card">
+              <p><i class="fas fa-tint" style="color:#00add6;"></i> WATER LEVEL CHART</p>
+              <div id="chart-waterLevel" class="chart-container"></div>
+            </div>
+          </div>
         </div>
-
-        <div class="line-graph">
-            <canvas id="myChart" style="width:100%;max-width:600px;margin-left: 250px;margin-top: 10px"></canvas>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-            <script>
-                var xValues = [50,60,70,80,90,100,110,120,130,140,150];
-                var yValues = [7,8,8,9,9,9,10,11,14,14,15];
-
-                new Chart("myChart", {
-                    type: "line",
-                    data: {
-                    labels: xValues,
-                    datasets: [{
-                    fill: false,
-                            lineTension: 0,
-                            backgroundColor: "rgba(0,0,255,1.0)",
-                            borderColor: "rgba(0,0,255,0.1)",
-                            data: yValues
-                        },]
-                    },
-                    options: {
-                        legend: {display: false},
-                        scales: {
-                            yAxes: [{ticks: {min: 6, max:16}}],
-                        }
-                    }       
-                });
-            </script>
-
-            <h3>Line Graph</h3>
-        </div>
-
-        <div class="table">
-            <table class="modern-table">
-                <thead>
-                    <tr>
-                        <th>Column 1</th>
-                        <th>Column 2</th>
-                        <th>Column 3</th>
-                        <th>Column 4</th>
-                        <th>Column 5</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="active-row">
-                        <td>Input 1</td>
-                        <td>Input 2</td>
-                        <td>Input 3</td>
-                        <td>Input 4</td>
-                        <td>Input 5</td>
-                    </tr>
-                    <tr>
-                        <td>Input 1</td>
-                        <td>Input 2</td>
-                        <td>Input 3</td>
-                        <td>Input 4</td>
-                        <td>Input 5</td>
-                    </tr>
-                    <tr>
-                        <td>Input 1</td>
-                        <td>Input 2</td>
-                        <td>Input 3</td>
-                        <td>Input 4</td>
-                        <td>Input 5</td>
-                    </tr>
-                    <tr>
-                        <td>Input 1</td>
-                        <td>Input 2</td>
-                        <td>Input 3</td>
-                        <td>Input 4</td>
-                        <td>Input 5</td>
-                    </tr>
-                </tbody>
-            </table>
-            <h3>Table</h3>
-        </div>
-
     
-    </main>
-    
+    <!--BUTTONS TO HANDLE DATA-->
+    <p>
+        <!--View data button-->
+        <button id="view-data-button">View all data</button>
+        <!--Hide data button-->
+        <button id="hide-data-button" style= "display:none;">Hide data</button>
+        <!--Delete data button-->
+        <button id="delete-button" class="deletebtn">Delete data</button>
+      </p>
+      <!--Modal to delete data-->
+      <div id="delete-modal" class="modal" sytle="display:none">
+        <span onclick = "document.getElementById('delete-modal').style.display='none'" class="close" title="Close Modal">×</span>
+        <form id= "delete-data-form" class="modal-content" action="/">
+          <div class="container">
+            <h1>Delete Data</h1>
+            <p>Are you sure you want to delete all data from database?</p>
+            <div class="clearfix">
+              <button type="button" onclick="document.getElementById('delete-modal').style.display='none'" class="cancelbtn">Cancel</button>
+              <button type="submit" onclick="document.getElementById('delete-modal').style.display='none'" class="deletebtn">Delete</button>
+            </div>
+          </div>
+        </form>
+      </div>
+  
+      <!--TABLE WITH ALL DATA-->
+      <div class ="cards">
+        <div class="card" id="table-container" style= "display:none;">
+          <table id="readings-table">
+              <tr id="theader">
+                <th>Timestamp</th>
+                <th>Distance (cm)</th>
+              </tr>
+              <tbody id="tbody">
+              </tbody>
+          </table>
+          <p><button id="load-data" style= "display:none;">More results...</button></p>
+        </div>
+      </div>
 
+      <!--INCLUDE JS FILES-->
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/charts-definition.js"></script>
+    <script src="scripts/gauges-definition.js"></script>
+    <script src="scripts/analytics.js"></script>
     
 </body>
 

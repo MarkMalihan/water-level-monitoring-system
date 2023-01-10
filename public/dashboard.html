@@ -12,6 +12,34 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.google.com/icons?icon.style=Sharp&icon.set=Material+Icons" rel="stylesheet">
     <title>Dashboard</title>
+
+    <!-- include Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-app.js"></script>
+
+    <!-- include only the Firebase features as you need -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-database.js"></script>
+
+    <script>
+      // Replace with your app config object
+      const firebaseConfig = {
+        apiKey: "AIzaSyA5rXrN87khGpfeEpaA4uuqPnQqsrD9l0A",
+        authDomain: "sample3-c7b38.firebaseapp.com",
+        databaseURL: "https://sample3-c7b38-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "sample3-c7b38",
+        storageBucket: "sample3-c7b38.appspot.com",
+        messagingSenderId: "288130084156",
+        appId: "1:288130084156:web:11df92a205b53692464239"
+      };
+
+      // Initialize firebase
+      firebase.initializeApp(firebaseConfig);
+
+      // Make auth and database references
+      const auth = firebase.auth();
+      const db = firebase.database();
+
+    </script>
 </head>
 
 <body>
@@ -35,7 +63,7 @@
                 <hr>
                 <li><a href="#">Settings</a></li>
                 <li><a href="#">About</a></li>
-                <li><a href="index.html">Log Out</a></li>
+                <li><a href="/public/index.html" id="logout-link">Log Out</a></li>
              </ul>
         </div>
     </nav>
@@ -76,6 +104,8 @@
             </div>
         </div>
     </main>
+
+    <script src="scripts/dashboard.js"></script>
 </body>
 
 </html>

@@ -39,10 +39,12 @@ const viewDataButtonElement = document.getElementById('view-data-button');
 const hideDataButtonElement = document.getElementById('hide-data-button');
 const tableContainerElement = document.querySelector('#table-container');
 const chartsRangeInputElement = document.getElementById('charts-range');
-const loadDataButtonElement = document.getElementById('load-data');
+const loadDataButtonElement = document.getElementById('load-next');
+const loadprevDataButtonElement = document.getElementById('load-previous');
 const cardsCheckboxElement = document.querySelector('input[name=cards-checkbox]');
 const gaugesCheckboxElement = document.querySelector('input[name=gauges-checkbox]');
 const chartsCheckboxElement = document.querySelector('input[name=charts-checkbox]');
+const sidenavElement = document.querySelector('#side-nav');
 
 // DOM elements for sensor readings
 const cardsReadingsElement = document.querySelector("#cards-div");
@@ -62,7 +64,10 @@ const setupUI = (user) => {
     authBarElement.style.display ='block';
     userDetailsElement.style.display ='block';
     userDetailsElement.innerHTML = user.email;
-
+    
+    viewDataButtonElement.style.display = 'inline-block';
+    deleteButtonElement.style.display = 'inline-block';
+    sidenavElement.style.display = 'block';
     // get user UID to get data from database
     var uid = user.uid;
     console.log(uid);
@@ -74,7 +79,7 @@ const setupUI = (user) => {
     // Database references
     var dbRef = firebase.database().ref(dbPath);
     var chartRef = firebase.database().ref(chartPath);
-
+    
     // CHARTS
     // Number of readings to plot on charts
     var chartRange = 0;
@@ -90,6 +95,8 @@ const setupUI = (user) => {
       chartT = createTemperatureChart();
       //chartH = createHumidityChart();
       //chartP = createPressureChart();
+
+      chartW = createWaterLevelChart();
       
       // Update the charts with the new range
       // Get the latest readings and plot them on charts (the number of plotted readings corresponds to the chartRange value)
@@ -104,6 +111,7 @@ const setupUI = (user) => {
         plotValues(chartT, timestamp, distance);
         //plotValues(chartH, timestamp, humidity);
         //plotValues(chartP, timestamp, pressure);
+        plotValues(chartW, timestamp, distance);
       });
     });
 
@@ -116,7 +124,7 @@ const setupUI = (user) => {
     // Checbox (cards for sensor readings)
     cardsCheckboxElement.addEventListener('change', (e) =>{
       if (cardsCheckboxElement.checked) {
-        cardsReadingsElement.style.display = 'block';
+        cardsReadingsElement.style.display = 'none';
       }
       else{
         cardsReadingsElement.style.display = 'none';
@@ -125,7 +133,7 @@ const setupUI = (user) => {
     // Checbox (gauges for sensor readings)
     gaugesCheckboxElement.addEventListener('change', (e) =>{
       if (gaugesCheckboxElement.checked) {
-        gaugesReadingsElement.style.display = 'block';
+        gaugesReadingsElement.style.display = 'none';
       }
       else{
         gaugesReadingsElement.style.display = 'none';
@@ -194,7 +202,7 @@ const setupUI = (user) => {
     function createTable(){
       // append all data to the table
       var firstRun = true;
-      dbRef.orderByKey().limitToLast(100).on('child_added', function(snapshot) {
+      dbRef.orderByKey().limitToLast(10).on('child_added', function(snapshot) {
         if (snapshot.exists()) {
           var jsonData = snapshot.toJSON();
           console.log(jsonData);
@@ -225,7 +233,7 @@ const setupUI = (user) => {
       var dataList = []; // saves list of readings returned by the snapshot (oldest-->newest)
       var reversedList = []; // the same as previous, but reversed (newest--> oldest)
       console.log("APEND");
-      dbRef.orderByKey().limitToLast(100).endAt(lastReadingTimestamp).once('value', function(snapshot) {
+      dbRef.orderByKey().limitToLast(10).endAt(lastReadingTimestamp).once('value', function(snapshot) {
         // convert the snapshot to JSON
         if (snapshot.exists()) {
           snapshot.forEach(element => {
@@ -265,7 +273,8 @@ const setupUI = (user) => {
       tableContainerElement.style.display = 'block';
       viewDataButtonElement.style.display ='none';
       hideDataButtonElement.style.display ='inline-block';
-      loadDataButtonElement.style.display = 'inline-block'
+      loadprevDataButtonElement.style.display = 'block';
+      loadDataButtonElement.style.display = 'inline-block';
       createTable();
     });
 
@@ -286,5 +295,34 @@ const setupUI = (user) => {
     authBarElement.style.display ='none';
     userDetailsElement.style.display ='none';
     contentElement.style.display = 'none';
+    sidenavElement.style.display = 'none';
+    viewDataButtonElement.style.display = 'none';
+    deleteButtonElement.style.display = 'none';
+    chartsDivElement.style.display = 'none';
   }
+}
+
+//sidenav
+
+let sidebar = document.querySelector(".sidebar");
+let closeBtn = document.querySelector("#btn");
+let searchBtn = document.querySelector(".bx-search");
+
+closeBtn.addEventListener("click", ()=>{
+  sidebar.classList.toggle("open");
+  menuBtnChange();//calling the function(optional)
+});
+
+searchBtn.addEventListener("click", ()=>{ // Sidebar open when you click on the search iocn
+  sidebar.classList.toggle("open");
+  menuBtnChange(); //calling the function(optional)
+});
+
+// following are the code to change sidebar button(optional)
+function menuBtnChange() {
+ if(sidebar.classList.contains("open")){
+   closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");//replacing the iocns class
+ }else {
+   closeBtn.classList.replace("bx-menu-alt-right","bx-menu");//replacing the iocns class
+ }
 }

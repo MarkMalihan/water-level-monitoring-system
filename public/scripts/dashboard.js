@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function(){
           setupUI(user);
           var uid = user.uid;
           console.log(uid);
+          window.location = "dashboard.html";
         } else {
           console.log("user logged out");
           setupUI();

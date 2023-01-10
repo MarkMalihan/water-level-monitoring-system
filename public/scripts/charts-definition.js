@@ -7,7 +7,7 @@ function onload(event){
   chartP = createPressureChart();
 }
 
-// Create Temperature Chart
+//Create Temperature Chart
 function createTemperatureChart() {
   var chart = new Highcharts.Chart({
     chart:{ 
@@ -117,6 +117,46 @@ function createPressureChart() {
     yAxis: {
       title: { 
         text: 'Pressure (hPa)' 
+      }
+    },
+    credits: { 
+      enabled: false 
+    }
+  });
+  return chart;
+}
+
+//Create Water Level Chart
+function createWaterLevelChart(){
+  var chart = new Highcharts.Chart({
+    chart:{ 
+      renderTo:'chart-waterLevel',
+      type: 'spline'  
+    },
+    series: [{
+      name: 'BME280'
+    }],
+    title: { 
+      text: undefined
+    },    
+    plotOptions: {
+      line: { 
+        animation: false,
+        dataLabels: { 
+          enabled: true 
+        }
+      },
+      series: { 
+        color: '#50b8b4' 
+      }
+    },
+    xAxis: {
+      type: 'datetime',
+      dateTimeLabelFormats: { second: '%H:%M:%S' }
+    },
+    yAxis: {
+      title: { 
+        text: 'Water Level (cm)' 
       }
     },
     credits: { 
