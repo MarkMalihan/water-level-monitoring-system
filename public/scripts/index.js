@@ -131,15 +131,11 @@ const setupUI = (user) => {
           var jsonData = snapshot.toJSON();
           console.log(jsonData);
           var distance = jsonData.distance;
-          //var humidity = jsonData.humidity;
-          //var pressure = jsonData.pressure;
           var timestamp = jsonData.timestamp;
           var content = '';
           content += '<tr>';
           content += '<td>' + epochToDateTime(timestamp) + '</td>';
           content += '<td>' + distance + '</td>';
-          //content += '<td>' + humidity + '</td>';
-          //content += '<td>' + pressure + '</td>';
           content += '</tr>';
           $('#tbody').prepend(content);
           // Save lastReadingTimestamp --> corresponds to the first timestamp on the returned snapshot data
@@ -175,15 +171,11 @@ const setupUI = (user) => {
             }
             else{
               var distance = element.distance;
-              //var humidity = element.humidity;
-              //var pressure = element.pressure;
               var timestamp = element.timestamp;
               var content = '';
               content += '<tr>';
               content += '<td>' + epochToDateTime(timestamp) + '</td>';
               content += '<td>' + distance + '</td>';
-              //content += '<td>' + humidity + '</td>';
-              //content += '<td>' + pressure + '</td>';
               content += '</tr>';
               $('#tbody').append(content);
             }
