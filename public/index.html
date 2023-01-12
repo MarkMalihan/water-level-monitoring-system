@@ -169,24 +169,10 @@
           </table>
           <p>
             <!--Delete data button-->
-            <button id="delete-button" class="deletebtn">Delete data</button>
+            
             <button  id="load-previous" style= "display:none;">Previous</button>
             <button  id="load-next" style= "display:none;">Next</button>
           </p>
-          <!--Modal to delete data-->
-          <div id="delete-modal" class="modal" sytle="display:none">
-            <span onclick = "document.getElementById('delete-modal').style.display='none'" class="close" title="Close Modal">×</span>
-            <form id= "delete-data-form" class="modal-content" action="/">
-              <div class="container">
-                <h2>Delete Data</h2>
-                <p>Are you sure you want to delete all data from database?</p>
-                <div class="clearfix">
-                  <button type="button" onclick="document.getElementById('delete-modal').style.display='none'" class="cancelbtn">Cancel</button>
-                  <button type="submit" onclick="document.getElementById('delete-modal').style.display='none'" class="deletebtn">Delete</button>
-                </div>
-              </div>
-            </form>
-          </div>
           
         </div>
       </div>

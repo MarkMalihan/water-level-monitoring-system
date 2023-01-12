@@ -32,9 +32,7 @@ const loginElement = document.querySelector('#login-form');
 const contentElement = document.querySelector("#content-sign-in");
 const userDetailsElement = document.querySelector('#user-details');
 const authBarElement = document.querySelector('#authentication-bar');
-const deleteButtonElement = document.getElementById('delete-button');
-const deleteModalElement = document.getElementById('delete-modal');
-const deleteDataFormElement = document.querySelector('#delete-data-form');
+
 
 const tableContainerElement = document.querySelector('#table-container');
 const chartsRangeInputElement = document.getElementById('charts-range');
@@ -78,7 +76,7 @@ const setupUI = (user) => {
     // Number of readings to plot on charts
     var chartRange = 0;
     // Get number of readings to plot saved on database (runs when the page first loads and whenever there's a change in the database)
-    chartRef.on('value', snapshot =>{
+      chartRef.on('value', snapshot =>{
       chartRange = Number(snapshot.val());
       console.log(chartRange);
       // Delete all data from charts to update with new values when a new range is selected
@@ -106,25 +104,14 @@ const setupUI = (user) => {
     // Checbox (charta for sensor readings)
     chartsDivElement.style.display = 'block';
 
-    // DELETE DATA
-    // Add event listener to open modal when click on "Delete Data" button
-    deleteButtonElement.addEventListener('click', e =>{
-      console.log("Remove data");
-      e.preventDefault;
-      deleteModalElement.style.display="inline-block";
-    });
-
-    // Add event listener when delete form is submited
-    deleteDataFormElement.addEventListener('submit', (e) => {
-      // delete data (readings)
-      dbRef.remove();
-    });
+    
 
     // TABLE
     var lastReadingTimestamp; //saves last timestamp displayed on the table
     // Function that creates the table with the first 100 readings
     function createTable(){
       // append all data to the table
+      
       var firstRun = true;
       dbRef.orderByKey().limitToLast(10).on('child_added', function(snapshot) {
         if (snapshot.exists()) {
@@ -201,7 +188,6 @@ const setupUI = (user) => {
     userDetailsElement.style.display ='none';
     contentElement.style.display = 'none';
     sidenavElement.style.display = 'none';
-    deleteButtonElement.style.display = 'none';
     chartsDivElement.style.display = 'none';
   }
 }

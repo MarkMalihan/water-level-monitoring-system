@@ -74,7 +74,7 @@
         </div>
         <ul class="nav-list">
           <li>
-            <a href="/public/index.html">
+            <a href="index.html">
               <i class='bx bx-grid-alt'></i>
               <span class="links_name">Dashboard</span>
             </a>
@@ -142,19 +142,16 @@
           <p> Number of readings: <input type="number" id="charts-range"></p>
         </div>
         
-        <!--WATER LEVEL-->
-        <div class="cards">
-          <div class="card">
-            <p><i class="fas fa-tint" style="color:#00add6;"></i> WATER LEVEL CHART</p>
-            <div id="chart-waterLevel" class="chart-container"></div>
+        <div id = "printableArea">
+           <!--WATER LEVEL-->
+          <div class="cards">
+            <div class="card">
+              <p><i class="fas fa-tint" style="color:#00add6;"></i> WATER LEVEL CHART</p>
+              <div id="chart-waterLevel" class="chart-container"></div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <!--BUTTONS TO HANDLE DATA-->
-      
-
-      <!--TABLE WITH ALL DATA-->
+           <!--TABLE WITH ALL DATA-->
       <div class ="cards">
         <div class="card" id="table-container" style= "display:none;">
           <table id="readings-table">
@@ -165,30 +162,38 @@
               <tbody id="tbody">
               </tbody>
           </table>
-          <p>
-            <!--Delete data button-->
-            <button id="delete-button" class="deletebtn">Delete data</button>
-            <button  id="load-previous" style= "display:none;">Previous</button>
-            <button  id="load-next" style= "display:none;">Next</button>
-          </p>
-          <!--Modal to delete data-->
-          <div id="delete-modal" class="modal" sytle="display:none">
-            <span onclick = "document.getElementById('delete-modal').style.display='none'" class="close" title="Close Modal">×</span>
-            <form id= "delete-data-form" class="modal-content" action="/">
-              <div class="container">
-                <h2>Delete Data</h2>
-                <p>Are you sure you want to delete all data from database?</p>
-                <div class="clearfix">
-                  <button type="button" onclick="document.getElementById('delete-modal').style.display='none'" class="cancelbtn">Cancel</button>
-                  <button type="submit" onclick="document.getElementById('delete-modal').style.display='none'" class="deletebtn">Delete</button>
-                </div>
-              </div>
-            </form>
-          </div>
-          
+         
         </div>
       </div>
+        </div>
+       
+      </div>
+      
+    </div>
 
+    <p>
+      <!--BUTTONS TO HANDLE DATA-->
+      <!--Delete data button-->
+      <button id="delete-button" class="deletebtn">Delete data</button>
+      <button id = "print-page" onClick="printPageArea('printableArea')">Print</button>
+      <button  id="load-previous" style= "display:none;">Previous</button>
+      <button  id="load-next" style= "display:none;">Next</button>
+      
+    </p>
+    <!--Modal to delete data-->
+    <div id="delete-modal" class="modal" sytle="display:none">
+      <span onclick = "document.getElementById('delete-modal').style.display='none'" class="close" title="Close Modal">×</span>
+      <form id= "delete-data-form" class="modal-content" action="/">
+        <div class="container">
+          <h2>Delete Data</h2>
+          <p>Are you sure you want to delete all data from database?</p>
+          <div class="clearfix">
+            <button type="button" onclick="document.getElementById('delete-modal').style.display='none'" class="cancelbtn">Cancel</button>
+            <button type="submit" onclick="document.getElementById('delete-modal').style.display='none'" class="deletebtn">Delete</button>
+          
+          </div>
+        </div>
+      </form>
     </div>
       <!--INCLUDE JS FILES-->
     <script src="scripts/auth.js"></script>
